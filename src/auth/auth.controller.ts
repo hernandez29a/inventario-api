@@ -70,7 +70,6 @@ export class AuthController {
     return this.authService.update(id, updateUserDto);
   }
 
-  // TODO eliminar un usuario
   @Delete('user/:id')
   @Auth(ValidRoles.admin) // * Solo usuario permitidos tiene acceso
   remove(@Param('id', ParseUUIDPipe) id: string) {
