@@ -48,6 +48,13 @@ export class User {
   })
   roles: string[];
 
+  @Column({
+    type: 'text',
+    nullable: true,
+    default: 'no posee imagen',
+  })
+  userImage: string;
+
   // ? columnas de fechas
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
