@@ -10,6 +10,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { SubCategory } from 'src/sub-category/entities/sub-category.entity';
 
 @Entity({ name: 'Productos' })
 export class Product {
@@ -122,6 +123,12 @@ export class Product {
     eager: true,
   })
   user: User;
+
+  // ? Relacion con subCategorias
+  @ManyToOne(() => SubCategory, (subCategory) => subCategory.product, {
+    eager: true,
+  })
+  subCategory: SubCategory;
 
   @BeforeInsert()
   checkSlugInsert(): void {

@@ -15,6 +15,8 @@ export class Category {
   @Column({
     type: 'text',
     nullable: true,
+    // TODO colocar ruta si no hay imagen
+    default: 'colocar ruta si no hay imagen',
   })
   image: string;
 

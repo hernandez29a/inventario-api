@@ -1,3 +1,4 @@
+import { Person } from 'src/person/entities/person.entity';
 import { Product } from '../../products/entities/product.entity';
 import {
   BeforeInsert,
@@ -5,7 +6,9 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -31,8 +34,9 @@ export class User {
   @Column({
     type: 'text',
     nullable: false,
+    unique: true,
   })
-  fullName: string;
+  userName: string;
 
   @Column({
     type: 'bool',
@@ -61,6 +65,10 @@ export class User {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @OneToOne(() => Person)
+  @JoinColumn()
+  person: Person;
 
   @OneToMany(() => Product, (product) => product.checkSlugInsert)
   product: Product;
