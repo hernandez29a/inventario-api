@@ -8,8 +8,10 @@ import {
   ParseFilePipe,
   Param,
   Res,
+  UploadedFiles,
+  ParseUUIDPipe,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { FilesService } from './files.service';
 import { fileNamer } from '../common/helper/fileNamer.helper';
@@ -32,9 +34,10 @@ export class FilesController {
     //return path;
   }
 
-  @Post('products')
+  // ? subir un arreglo de archivos
+  @Post('products/:id')
   @UseInterceptors(
-    FileInterceptor('file', {
+    FilesInterceptor('files', 3, {
       limits: { fileSize: 1000000 },
       storage: diskStorage({
         destination: './src/static/products',
@@ -42,28 +45,19 @@ export class FilesController {
       }),
     }),
   )
-  uploadFile(
-    @UploadedFile(
+  async uploadFiles(
+    @Param('id', ParseUUIDPipe) id: string,
+    @UploadedFiles(
       new ParseFilePipe({
         validators: [
           new FileTypeValidator({ fileType: '.(png|jpeg|jpg|gif)' }),
         ],
       }),
     )
-    file: Express.Multer.File,
+    files: Array<Express.Multer.File>,
   ) {
-    /*const dataFile = {
-      fieldname: file.fieldname,
-      originalname: file.originalname,
-      encoding: file.encoding,
-      mimetype: file.mimetype,
-    }; */
-    console.log(file);
-    // ? nombre de la imagen guardada en el servidor
-    // ? falta guardar este dato en la base de datos
-    const secureUrl = `${this.configService.get('HOST_ENV')}/files/products/${
-      file.filename
-    }`;
-    return secureUrl;
+    //console.log(files);
+    const images = files.map((file) => file.filename);
+    return this.filesService.updateFile(id, images);
   }
 }
