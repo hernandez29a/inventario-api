@@ -7,7 +7,7 @@ import { Product, ProductImage } from './entities';
 import { ErrorHandleService } from '../common/exception/exception.controller';
 import { PaginationDto } from '../common/dtos/pagination.dto';
 import { isUUID } from 'class-validator';
-import { User } from '../auth/entities/user.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class ProductsService {

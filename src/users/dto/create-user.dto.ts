@@ -1,10 +1,10 @@
-import { IsOptional } from 'class-validator';
 import {
-  IsEmail,
   IsString,
-  Matches,
-  MaxLength,
+  IsEmail,
   MinLength,
+  MaxLength,
+  Matches,
+  IsOptional,
 } from 'class-validator';
 
 export class CreateUserDto {

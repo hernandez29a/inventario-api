@@ -1,17 +1,18 @@
 import { Person } from 'src/person/entities/person.entity';
-import { Product } from '../../products/entities/product.entity';
+import { Product } from 'src/products/entities';
 import {
-  BeforeInsert,
-  BeforeUpdate,
+  Entity,
+  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  Entity,
+  UpdateDateColumn,
+  OneToOne,
   JoinColumn,
   OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  BeforeInsert,
+  BeforeUpdate,
 } from 'typeorm';
+
 @Entity({ name: 'Usuarios' })
 export class User {
   @PrimaryGeneratedColumn('uuid')
