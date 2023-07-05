@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { CategoryModule } from './category/category.module';
 import { SubCategoryModule } from './sub-category/sub-category.module';
 import { PersonModule } from './person/person.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { PersonModule } from './person/person.module';
     CategoryModule,
     SubCategoryModule,
     PersonModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],
