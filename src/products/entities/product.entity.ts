@@ -1,5 +1,4 @@
 import { ProductImage } from './';
-import { User } from '../../auth/entities/user.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -11,6 +10,7 @@ import {
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { SubCategory } from 'src/sub-category/entities/sub-category.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Entity({ name: 'Productos' })
 export class Product {

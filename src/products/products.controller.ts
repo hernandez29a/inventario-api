@@ -16,10 +16,10 @@ import { PaginationDto } from '../common/dtos/pagination.dto';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { ValidRoles } from '../auth/interfaces/valid-roles.interface';
 import { GetUser } from 'src/auth/decorators';
-import { User } from '../auth/entities/user.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { ApiResponse } from '@nestjs/swagger';
 import { Product } from './entities/product.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @ApiTags('Productos')
 @Controller('products')
