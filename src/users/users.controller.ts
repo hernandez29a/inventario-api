@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Query,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -24,7 +25,7 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @Post('register')
+  @Post('create')
   @Auth(ValidRoles.admin)
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
@@ -38,19 +39,22 @@ export class UsersController {
 
   @Get(':id')
   @Auth(ValidRoles.admin, ValidRoles.user) // * Solo usuario permitidos tiene acceso
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.findOne(id);
   }
 
   @Patch(':id')
   @Auth(ValidRoles.admin) // * Solo usuario permitidos tiene acceso
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
   @Auth(ValidRoles.admin) // * Solo usuario permitidos tiene acceso
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.remove(id);
   }
 }

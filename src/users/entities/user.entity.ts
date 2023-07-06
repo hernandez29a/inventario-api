@@ -67,7 +67,9 @@ export class User {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @OneToOne(() => Person)
+  @OneToOne(() => Person, (person) => person.id, {
+    eager: true, // *para mostrar las relaciones
+  })
   @JoinColumn()
   person: Person;
 

@@ -6,6 +6,7 @@ import {
   Matches,
   IsOptional,
 } from 'class-validator';
+import { Person } from 'src/person/entities/person.entity';
 
 export class CreateUserDto {
   @IsString()
@@ -23,7 +24,11 @@ export class CreateUserDto {
 
   @IsString()
   @MinLength(1)
-  fullName: string;
+  userName: string;
+
+  @IsString()
+  @IsOptional()
+  person: Person;
 
   @IsString()
   @IsOptional()

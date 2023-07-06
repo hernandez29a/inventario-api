@@ -68,10 +68,9 @@ export class UsersService {
   }
 
   async findOne(id: string) {
-    let user: User;
-    if (isUUID(id)) {
-      user = await this.userRepository.findOneBy({ id: id });
-    } // else {
+    //let user: User;
+    const user = await this.userRepository.findOneBy({ id: id });
+    // else {
     //const builder = this.userRepository.createQueryBuilder('user');
     //user = await builder
     //  .where(`UPPER(title) =:title or slug =:slug`, {
@@ -82,9 +81,10 @@ export class UsersService {
     //  .getOne();
     // }
     //const product = await this.productRepository.findOneBy({ id });
-    if (!user) {
+    /*if (!user) {
       throw new NotFoundException(`User with id: ${id} not in data base`);
-    }
+    }*/
+    this.findValidUser(user);
     return user;
   }
 
@@ -115,7 +115,8 @@ export class UsersService {
       ...data,
     });
 
-    this.findOne(id);
+    //this.findOne(id);
+    this.findValidUser(user);
 
     try {
       await this.userRepository.update(id, data); //* Guardar en la Base de datos
@@ -125,13 +126,22 @@ export class UsersService {
     }
   }
 
+  async findValidUser(user: User) {
+    if (!user) {
+      throw new NotFoundException(`User with id: ${user.id} not in data base`);
+    }
+  }
+
   async remove(id: string) {
-    this.findOne(id);
+    //let user: User;
+    const user = await this.findOne(id);
+    this.findValidUser(user);
     try {
       await this.userRepository.update(id, {
         isActive: false,
       });
-      return `usuario ha sido removido con exito`;
+      //const u = await this.findOne(id);
+      return this.findOne(id);
     } catch (error) {
       this.errorHandler.errorHandleException(error);
     }
