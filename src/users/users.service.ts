@@ -94,9 +94,9 @@ export class UsersService {
 
     const { password, ...restoData } = updateUserDto;
 
-    if (restoData.fullName) {
-      updateUserDto.fullName = updateUserDto.fullName.toLocaleLowerCase();
-    }
+    //if (restoData.fullName) {
+    //  updateUserDto.fullName = updateUserDto.fullName.toLocaleLowerCase();
+    //}
 
     // ? validar que la contraseña enviada es diferente a la que esta en la bd y actualizarla
     if (password) {

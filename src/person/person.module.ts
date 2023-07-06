@@ -16,5 +16,6 @@ import { Person } from './entities/person.entity';
     AuthModule,
     TypeOrmModule.forFeature([Person]),
   ],
+  exports: [PersonModule],
 })
 export class PersonModule {}

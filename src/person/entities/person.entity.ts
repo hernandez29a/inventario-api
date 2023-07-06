@@ -1,4 +1,6 @@
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -36,4 +38,15 @@ export class Person {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
+
+  @BeforeInsert()
+  checkfullname(): void {
+    this.firstName = this.firstName.toLowerCase().trim();
+    this.lastName = this.lastName.toLowerCase().trim();
+  }
+
+  @BeforeUpdate()
+  checkFiledBeforeUpdate() {
+    this.checkfullname();
+  }
 }
