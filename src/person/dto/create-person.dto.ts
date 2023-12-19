@@ -8,4 +8,8 @@ export class CreatePersonDto {
   @IsString()
   @MinLength(4)
   lastName: string;
+
+  @IsString()
+  @MinLength(2)
+  cedula: string;
 }

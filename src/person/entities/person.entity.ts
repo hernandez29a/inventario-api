@@ -26,6 +26,12 @@ export class Person {
   lastName: string;
 
   @Column({
+    type: 'text',
+    nullable: false,
+  })
+  cedula: string;
+
+  @Column({
     type: 'bool',
     nullable: false,
     default: true,
