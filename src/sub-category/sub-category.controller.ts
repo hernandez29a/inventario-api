@@ -6,46 +6,48 @@ import {
   Patch,
   Param,
   Delete,
+  ParseUUIDPipe,
+  Query,
 } from '@nestjs/common';
 import { SubCategoryService } from './sub-category.service';
 import { CreateSubCategoryDto } from './dto/create-sub-category.dto';
 import { UpdateSubCategoryDto } from './dto/update-sub-category.dto';
 import { Auth } from '../auth/decorators/auth.decorator';
+import { ValidRoles } from 'src/auth/interfaces';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
 @Controller('sub-category')
 export class SubCategoryController {
   constructor(private readonly subCategoryService: SubCategoryService) {}
 
   @Post()
-  @Auth()
+  @Auth(ValidRoles.admin)
   create(@Body() createSubCategoryDto: CreateSubCategoryDto) {
     return this.subCategoryService.create(createSubCategoryDto);
   }
 
   @Get()
-  @Auth()
-  findAll() {
-    return this.subCategoryService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.subCategoryService.findAll(paginationDto);
   }
 
   @Get(':id')
-  @Auth()
-  findOne(@Param('id') id: string) {
-    return this.subCategoryService.findOne(+id);
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return this.subCategoryService.findOne(id);
   }
 
   @Patch(':id')
-  @Auth()
+  @Auth(ValidRoles.admin)
   update(
-    @Param('id') id: string,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() updateSubCategoryDto: UpdateSubCategoryDto,
   ) {
-    return this.subCategoryService.update(+id, updateSubCategoryDto);
+    return this.subCategoryService.update(id, updateSubCategoryDto);
   }
 
   @Delete(':id')
-  @Auth()
-  remove(@Param('id') id: string) {
-    return this.subCategoryService.remove(+id);
+  @Auth(ValidRoles.admin)
+  remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.subCategoryService.remove(id);
   }
 }
