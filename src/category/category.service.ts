@@ -5,6 +5,7 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './entities/category.entity';
 import { Repository } from 'typeorm';
 import { ErrorHandleService } from '../common/exception/exception.controller';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
 @Injectable()
 export class CategoryService {
@@ -24,16 +25,31 @@ export class CategoryService {
     }
   }
 
-  async findAll() {
+  async findAll(paginationDto: PaginationDto) {
+    const { limit = 5, offset = 1 } = paginationDto;
+    const pagination = (offset - 1) * limit;
+    const builder = this.categoryRepository.createQueryBuilder('caytegory');
+    const totalRegistros = await builder.getCount();
+    const totalPaginas = Math.ceil((totalRegistros * 1) / limit);
     try {
-      const categories = await this.categoryRepository.find();
-      return categories;
+      const categories = await this.categoryRepository.find({
+        take: limit,
+        skip: pagination,
+      });
+      const paginar = {
+        antes: offset - 1,
+        actual: offset,
+        despues: offset + 1,
+        totalRegistros,
+        totalPaginas,
+      };
+      return { categories, paginar };
     } catch (error) {
       this.errorHandler.errorHandleException(error);
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     try {
       const category = await this.categoryRepository.findBy({ id });
       return category;
@@ -42,7 +58,7 @@ export class CategoryService {
     }
   }
 
-  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
+  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
     const category = await this.categoryRepository.preload({
       id,
       ...updateCategoryDto,
@@ -60,7 +76,7 @@ export class CategoryService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const category = await this.findOne(id);
     await this.categoryRepository.remove(category);
     //return `This action removes a #${id} category`;

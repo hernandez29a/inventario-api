@@ -3,8 +3,8 @@ import { SubCategory } from '../../sub-category/entities/sub-category.entity';
 
 @Entity({ name: 'Categorias' })
 export class Category {
-  @PrimaryGeneratedColumn('increment')
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({
     type: 'text',
@@ -15,8 +15,7 @@ export class Category {
   @Column({
     type: 'text',
     nullable: true,
-    // TODO colocar ruta si no hay imagen
-    default: 'colocar ruta si no hay imagen',
+    default: 'no posee imagen',
   })
   image: string;
 
