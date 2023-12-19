@@ -10,7 +10,6 @@ import { JwtService } from '@nestjs/jwt';
 
 import * as bcrypt from 'bcrypt';
 import { JwtPayload } from 'src/auth/interfaces';
-import { isUUID } from 'class-validator';
 
 @Injectable()
 export class UsersService {
