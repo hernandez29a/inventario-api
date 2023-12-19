@@ -46,10 +46,13 @@ export class ProductsController {
   }
 
   @Get()
-  //@Auth() //* todos los roles tiene acceso
-  findAll(@Query() paginationDto: PaginationDto) {
+  @Auth() //* todos los roles tiene acceso pero tiene q estar autenticado
+  findAll(
+    @Query() paginationDto: PaginationDto,
+    @Query() subCategory: Product,
+  ) {
     //console.log(paginationDto);
-    return this.productsService.findAll(paginationDto);
+    return this.productsService.findAll(paginationDto, subCategory);
   }
 
   @Get(':term')

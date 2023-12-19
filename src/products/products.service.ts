@@ -43,12 +43,26 @@ export class ProductsService {
     //return 'This action adds a new product';
   }
 
-  async findAll(paginationDto: PaginationDto) {
+  // TODO filtrar por subcategorias
+  async findAll(paginationDto: PaginationDto, query: Product) {
     const { limit = 5, offset = 1 } = paginationDto;
     const paginacion = (offset - 1) * limit;
     const builder = this.productRepository.createQueryBuilder('producto');
     const totalRegistros = await builder.getCount();
     const totalPaginas = Math.ceil((totalRegistros * 1) / limit);
+
+    // TODO si viene un query pasar esta instruccion y si no viene , se carga todo
+    this.productRepository
+      .createQueryBuilder('product')
+      .leftJoinAndSelect('product.subcategory', 'subcategory')
+      .where('product.title LIKE :title', {
+        title: `%${query.title}%`,
+      })
+      .andWhere('subcategory.nameSubCategoria IN (:...subcategories)', {
+        subcategories: query.subCategory,
+      })
+      .getMany();
+
     const products = await this.productRepository.find({
       take: limit,
       skip: paginacion,
